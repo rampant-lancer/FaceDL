@@ -10,6 +10,7 @@ from keras.layers import Flatten
 from keras.layers import Dropout
 from keras.utils import to_categorical
 from sklearn.model_selection import train_test_split
+import numpy as np
 
 
 
@@ -78,26 +79,33 @@ def preprocess(n_examples, mode, n_classes):
     face = UTKFace.UTKFace()
 
     X, Y = face.load_data(n_examples, mode)
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.15)
+    #X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.15)
 
     input_shape = X[0].shape 
     n_classes = n_classes
 
-    Y_train = to_categorical(Y_train, n_classes)
-    Y_test = to_categorical(Y_test, n_classes)
+    #Y_train = to_categorical(Y_train, n_classes)
+    #Y_test = to_categorical(Y_test, n_classes)
 
-    print('X_train.shape : ' + str(X_train.shape))
-    print('Y_train.shape : ' + str(Y_train.shape))
-    print('X_test.shape : ' + str(X_test.shape))
-    print('Y_test.shape : ' + str(Y_test.shape))
+    Y = to_categorical(Y, n_classes)
 
-    X_train = X_train.astype(np.float32)
-    X_test = X_test.astype(np.float32)
+    #print('X_train.shape : ' + str(X_train.shape))
+    #print('Y_train.shape : ' + str(Y_train.shape))
+    #print('X_test.shape : ' + str(X_test.shape))
+    #print('Y_test.shape : ' + str(Y_test.shape))
 
-    X_train /= 255.0
-    X_test /= 255.0
+    print('X.shape : ' + str(X.shape) + ' Y.shape : ' + str(Y.shape))
+    #X_train = X_train.astype(np.float32)
+    #X_test = X_test.astype(np.float32)
 
-    return (X_train, Y_train), (X_test, Y_test)
+    X = X.astype(np.float16)
+
+    #X_train /= 255.0
+    #X_test /= 255.0
+
+    X /= 255.0
+
+    return X, Y
 
 
 def train():
@@ -107,7 +115,7 @@ def train():
     batch_size = 64
     epochs = 10
 
-    (X_train, Y_train), (X_test, Y_test) = preprocess(n_examples, mode, n_classes)
+    X_train, Y_train = preprocess(n_examples, mode, n_classes)
 
     input_shape = X_train[0].shape
 
@@ -121,3 +129,5 @@ def train():
     model.fit(X_train, Y_train, batch_size=batch_size, epochs=epochs, validation_split=0.2)
 
     model.save('Model.h5')
+
+train()
