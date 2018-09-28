@@ -65,14 +65,16 @@ def get_squeeze_net(include_top=True, weights='imagenet', input_shape=None, pool
     X = get_fire_module(X, filters=(64, 256, 256), layer_id=9)
 
     if include_top:
-        weights_path = 'saved_weights/squeezenet_weights_tf_dim_ordering_tf_kernels.h5'
+        weights_path = "https://github.com/rcmalli/keras-squeezenet/releases/download/v1.0/squeezenet_weights_tf_dim_ordering_tf_kernels.h5"
+        weights_path = get_file('squeezenet_weights_tf_dim_ordering_tf_kernels.h5', weights_path, cache_subdir='models')
         X = Dropout(0.5, name='dropout_9')(X)
         X = Conv2D(classes, (1, 1), name='conv_10')(X)
         X = Activation('relu')(X)
         X = GlobalAveragePooling2D()(X)
         final_opt = Activation('softmax', name='final_opt')(X)
     else:
-        weights_path = 'saved_weights/squeezenet_weights_tf_dim_ordering_tf_kernels_notop.h5'
+        weights_path = "https://github.com/rcmalli/keras-squeezenet/releases/download/v1.0/squeezenet_weights_tf_dim_ordering_tf_kernels_notop.h5"
+        weights_path = get_file('squeezenet_weights_tf_dim_ordering_tf_kernels_notop.h5', weights_path, cache_subdir='models')
         if pooling == 'avg':
             final_opt = GlobalAveragePooling2D()(X)
         elif pooling == 'max':
@@ -88,11 +90,3 @@ def get_squeeze_net(include_top=True, weights='imagenet', input_shape=None, pool
     model.load_weights(weights_path)
 
     return model
-
-
-
-model = get_squeeze_net(include_top=True, input_shape=(224, 224, 3), pooling='avg', classes=1000)
-print(model.summary())
-
-
-
