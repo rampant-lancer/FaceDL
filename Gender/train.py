@@ -8,8 +8,9 @@ mode = 1
 n_classes = 2
 n_batches = 32
 n_epochs = 100
+_shape = (224, 224)
 
-X, Y = get_preprocessed_data(-1, 1, 2)
+X, Y = get_preprocessed_data(-1, 1, 2, _shape)
 
 input_shape = X[0].shape 
 
