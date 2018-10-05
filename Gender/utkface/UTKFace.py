@@ -99,7 +99,6 @@ class UTKFace(object):
         for indx in random_indices:
             fpath = self.data_dir + '/' + all_files[indx]
             img = cv2.imread(fpath)
-            img = cv2.resize(img, shape)
             label = int(all_files[indx].split('_')[self.mode])
 
             X.append(img)
@@ -110,7 +109,7 @@ class UTKFace(object):
 
 
 
-    def load_data(self, countOfImages, mode, shape):
+    def load_data(self, countOfImages, mode):
         '''
             This is the main function of the class this function will extract images and labels
             from the directory specified.
@@ -118,7 +117,6 @@ class UTKFace(object):
         all_files = os.listdir(self.base_dir)
         self.countOfImages = countOfImages
         self.mode = mode
-        self.shape = shape
 
         if not self.req_file.split('/')[1] in all_files:
             '''

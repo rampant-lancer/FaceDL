@@ -57,9 +57,9 @@ def get_model(input_shape, n_classes):
 
     X = Dense(units=1024, activation='relu', name='dense_9')(X)
     X = Dropout(0.5)(X)
-    output = Dense(units=n_classes, activation='softmax', name='final_dense')(X)
+    opt = Dense(units=n_classes, activation='softmax', name='final_dense')(X)
 
-    model = Model(inputs=inp_img, outputs=output)
+    model = Model(inp_img, opt)
     plot_model(model, to_file='model.png')
     print(model.summary())
     
