@@ -23,6 +23,9 @@ def get_res_fire(X, filters, p_filter, layer_id):
     print(X_2.shape)
     X = Add()([X, X_2])
     X = Activation('relu')(X)
+    X = BatchNormalization()(X)
+    X = MaxPooling2D(pool_size=(2, 2), name='maxpool_'+str(layer_id))(X)
+    X = Dropout(0.5)(X)
     return X
 
 
@@ -34,24 +37,13 @@ def get_model(input_shape, n_classes):
     X = Conv2D(filters=32, kernel_size=(3, 3), activation='relu', name='conv_1')(inp_img)
 
     X = get_res_fire(X, (16, 32), 32, 2)
-    X = BatchNormalization()(X)
-    X = MaxPooling2D(pool_size=(2, 2), name='maxpool_3')(X)
-    X = Dropout(0.5)(X)
-    
-    
 
     X = get_res_fire(X, (32, 64), 64, 4)
-    X = BatchNormalization()(X)
-    X = MaxPooling2D(pool_size=(2, 2), name='maxpool_5')(X)
-    X = Dropout(0.5)(X)
     
-    
-
     X = get_res_fire(X, (64, 128), 128, 6)
-    X = BatchNormalization()(X)
-    X = MaxPooling2D(pool_size=(2, 2), name='maxpool_7')(X)
-    X = Dropout(0.5)(X)
-    
+
+    X = get_res_fire(X, (128, 256), 256, 8)
+
     
     X = GlobalAveragePooling2D()(X)
 
