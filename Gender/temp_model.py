@@ -99,8 +99,6 @@ def get_model(input_shape, n_classes):
 
 	X = GlobalAveragePooling2D(name='global_avg_pooling_1')(X)
 
-	X = Dense(units=1024, activation='relu', name='dense_1')(X)
-	X = Dropout(0.5, name='drop_5')(X)
 	X = Dense(units=512, activation='relu', name='dense_2')(X)
 	X = Dropout(0.5, name='drop_6')(X)
 	opt = Dense(n_classes, activation='softmax', name='dense_final')(X)
