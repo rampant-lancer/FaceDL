@@ -22,7 +22,7 @@ print(X.shape)
 
 X_train, X_val, Y_train, Y_val = train_test_split(X, Y, test_size=0.25)
 
-datagen = ImageDataGenerator(rotation_range=20,
+datagen = ImageDataGenerator(rotation_range=30,
                             zoom_range=0.1,
                             vertical_flip=True,
                             fill_mode='nearest')
