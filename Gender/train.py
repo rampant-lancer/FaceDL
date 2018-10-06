@@ -1,5 +1,5 @@
 from preprocess import get_preprocessed_data
-from models import get_model 
+from temp_model import get_model 
 from keras.callbacks import ModelCheckpoint
 import pickle
 
@@ -10,7 +10,7 @@ n_classes = 2
 n_batches = 32
 n_epochs = 100
 
-X, Y = get_preprocessed_data(100, 1, 2)
+X, Y = get_preprocessed_data(n_examples, mode, n_classes)
 
 input_shape = X[0].shape 
 
